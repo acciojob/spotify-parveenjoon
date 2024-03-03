@@ -1,12 +1,11 @@
 package com.driver;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 @Service
 public class SpotifyService {
-    private final SpotifyRepository spotifyRepository = new SpotifyRepository();
+
+    SpotifyRepository spotifyRepository = new SpotifyRepository();
 
     public User createUser(String name, String mobile) {
         return spotifyRepository.createUser(name, mobile);
