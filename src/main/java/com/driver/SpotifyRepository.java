@@ -18,7 +18,6 @@ public class SpotifyRepository {
     public List<Artist> artists;
 
     public SpotifyRepository() {
-        // Initialize all the hashmaps and lists
         artistAlbumMap = new HashMap<>();
         albumSongMap = new HashMap<>();
         playlistSongMap = new HashMap<>();
@@ -143,13 +142,9 @@ public class SpotifyRepository {
             throw new RuntimeException("Playlist with title " + playlistTitle + " does not exist.");
         }
 
-        if (!playlistListenerMap.containsKey(playlist)) {
-            playlistListenerMap.put(playlist, new ArrayList<>());
-        }
-
-        List<User> listeners = playlistListenerMap.get(playlist);
-        if (!listeners.contains(user) && !user.equals(creatorPlaylistMap.get(playlist))) {
-            listeners.add(user);
+        if (!playlistListenerMap.get(playlist).contains(user) && !user.equals(creatorPlaylistMap.get(playlist))) {
+            playlistListenerMap.computeIfAbsent(playlist, k -> new ArrayList<>()).add(user);
+            userPlaylistMap.computeIfAbsent(user, k -> new ArrayList<>()).add(playlist);
         }
 
         return playlist;
@@ -166,10 +161,8 @@ public class SpotifyRepository {
             throw new RuntimeException("Song with title " + songTitle + " does not exist.");
         }
 
-        List<User> likedUsers = songLikeMap.computeIfAbsent(song, k -> new ArrayList<>());
-        if (!likedUsers.contains(user)) {
-            likedUsers.add(user);
-            // Auto-like the corresponding artist
+        if (!songLikeMap.get(song).contains(user)) {
+            songLikeMap.computeIfAbsent(song, k -> new ArrayList<>()).add(user);
             Artist artist = findArtistBySong(song);
             if (artist != null) {
                 artist.setLikes(artist.getLikes() + 1);
