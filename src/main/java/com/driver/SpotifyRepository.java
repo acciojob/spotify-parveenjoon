@@ -2,6 +2,8 @@ package com.driver;
 
 import java.util.*;
 
+import java.util.stream.Collectors;
+
 public class SpotifyRepository {
     public HashMap<Artist, List<Album>> artistAlbumMap;
     public HashMap<Album, List<Song>> albumSongMap;
@@ -99,7 +101,7 @@ public class SpotifyRepository {
         Playlist playlist = new Playlist(title);
         List<Song> songsToAdd = songs.stream()
                 .filter(song -> song.getLength() == length)
-                .toList();
+                .collect(Collectors.toList());
 
         playlistSongMap.put(playlist, songsToAdd);
         playlistListenerMap.put(playlist, List.of(user));
@@ -122,7 +124,7 @@ public class SpotifyRepository {
         Playlist playlist = new Playlist(title);
         List<Song> songsToAdd = songs.stream()
                 .filter(song -> songTitles.contains(song.getTitle()))
-                .toList();
+                .collect(Collectors.toList());
 
         playlistSongMap.put(playlist, songsToAdd);
         playlistListenerMap.put(playlist, List.of(user));
