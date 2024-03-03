@@ -99,9 +99,9 @@ public class SpotifyRepository {
         }
 
         Playlist playlist = new Playlist(title);
-        List<Song> songsToAdd = songs.stream()
+        List<Song> songsToAdd = new ArrayList<>(songs.stream()
                 .filter(song -> song.getLength() == length)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
 
         playlistSongMap.put(playlist, songsToAdd);
         playlistListenerMap.put(playlist, List.of(user));
@@ -122,9 +122,9 @@ public class SpotifyRepository {
         }
 
         Playlist playlist = new Playlist(title);
-        List<Song> songsToAdd = songs.stream()
+        List<Song> songsToAdd = new ArrayList<>(songs.stream()
                 .filter(song -> songTitles.contains(song.getTitle()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
 
         playlistSongMap.put(playlist, songsToAdd);
         playlistListenerMap.put(playlist, List.of(user));
